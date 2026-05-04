@@ -30,3 +30,5 @@ WantedBy=multi-user.target
 sudo systemctl daemon-reload
 sudo systemctl enable gpufan.service
 sudo systemctl start gpufan
+sudo systemctl status gpufan
+![alt text](image-1.png)
