@@ -1,4 +1,5 @@
-test on ubuntu 26.04 with GTX 1060
+test on ubuntu 26.04 with Nvidia GTX 1060
+
 NVIDIA-SMI 580.142  Driver Version: 580.142  CUDA Version: 13.1
 
 # Introduction
@@ -16,6 +17,7 @@ sudo chmod +x gpufan.sh
 sudo mv gpufan.sh /usr/local/bin/
 sudo nano /etc/systemd/system/gpufan.service
 ```
+`/etc/systemd/system/gpufan.service`shows like:
 ```shell
 [Unit]
 Description=NVIDIA Fan Curve Control
@@ -31,6 +33,7 @@ User=root
 [Install]
 WantedBy=multi-user.target
 ```
+Enable startup and show status:
 ```shell
 sudo systemctl daemon-reload
 sudo systemctl enable gpufan.service
