@@ -14,7 +14,7 @@ done
 # 温度回差（解决抖动核心：避免阈值附近反复切换）
 HYSTERESIS=2
 # 转速曲线（℃ → %）
-IDLE_SPEED=30     # 低温默认转速
+IDLE_SPEED=30     # 低温默认转速（视显卡风扇默认启动最低转速而定）
 # ==========================================================
 
 export DISPLAY=:1
@@ -39,12 +39,18 @@ echo "启用手动风扇控制..."
 sudo nvidia-settings -a "[gpu:0]/GPUFanControlState=1" > /dev/null 2>&1
 sleep 1
 
+# 获取GPU当前温度
+TEMP=$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits 2>/dev/null)
+
+# 设定初始风扇转速为IDLE_SPEED
+sudo nvidia-settings -a "[fan:0]/GPUTargetFanSpeed=$IDLE_SPEED" > /dev/null 2>&1
 
 # 上一次转速（用于防抖）
 LAST_SPEED=$IDLE_SPEED
 
 echo "✅ 风扇控制已启动（带滞回防抖）"
 echo "----------------------------------------"
+echo "温度: $TEMP℃ | 初始转速: $IDLE_SPEED%"
 
 # 主监控循环
 while true; do
